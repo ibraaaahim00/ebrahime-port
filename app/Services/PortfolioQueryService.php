@@ -23,7 +23,7 @@ class PortfolioQueryService
 
         return [
             'profile' => PortfolioProfile::query()->firstOrFail(),
-            'settings' => SiteSetting::query()->get()->mapWithKeys(fn (SiteSetting $setting): array => [$setting->key => $setting->typedValue()])->all(),
+            'settings' => SiteSetting::query()->get()->mapWithKeys(fn (SiteSetting $setting): array => [$setting->key => $setting->localizedTypedValue()])->all(),
             'sections' => $sections,
             'hero' => $sections->get('hero'),
             'about' => $sections->get('about'),

@@ -13,6 +13,7 @@ use App\Models\SiteSetting;
 use App\Models\Skill;
 use App\Models\Technology;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -30,6 +31,7 @@ class DatabaseSeeder extends Seeder
         $this->seedExperience();
         $this->seedEducation();
         $this->seedProjects();
+        $this->seedArabicTranslations();
     }
 
     private function seedAdmin(): void
@@ -132,5 +134,115 @@ class DatabaseSeeder extends Seeder
             $project = Project::query()->updateOrCreate(['slug' => $projectData['slug']], $projectData + ['category_id' => $categoryIds[Str::slug($category)], 'published' => true, 'active' => true, 'project_status' => 'completed']);
             $project->technologies()->sync($technologyIds);
         }
+    }
+
+    private function seedArabicTranslations(): void
+    {
+        $profile = PortfolioProfile::query()->first();
+        if ($profile) {
+            $this->setArabic($profile, [
+                'professional_title' => 'مطور Backend — PHP / Laravel',
+                'status' => 'أنظمة Backend / PHP / Laravel',
+                'short_bio' => 'مطور Backend متخصص في PHP وLaravel، مع خبرة عملية في التجارة الإلكترونية، وحجز المواعيد، وسير العمل للخدمات العامة، والتطبيقات المعتمدة على APIs.',
+                'full_bio' => 'أبني أنظمة Backend قابلة للصيانة بقواعد عمل واضحة، وواجهات APIs آمنة، ونماذج بيانات مترابطة، ومعمارية تظل مستقرة مع نمو المنتجات.',
+                'hero_cta_text' => 'عرض المشاريع',
+            ]);
+        }
+
+        $sections = [
+            'hero' => ['tag' => 'أنظمة Backend / PHP / Laravel', 'description' => 'مطور Backend — PHP / Laravel', 'content' => ['aside_label' => 'لمحة عن أعمال إبراهيم في Backend', 'note_label' => 'نعرض حاليًا', 'note_text' => 'القرارات الهندسية خلف مجموعة من المشاريع المختارة.']],
+            'about' => ['tag' => 'نبذة عن العمل', 'title' => 'نبذة عني', 'description' => 'العمل في Backend يدور غالبًا حول جعل الأجزاء المعقدة قابلة للتوقع.', 'content' => ['paragraphs' => ['أنا مطور Backend أركز على بناء أنظمة قوية وقابلة للصيانة باستخدام PHP وLaravel. بدلًا من الاعتماد على مولدات CRUD البسيطة، أضع وضوح المعمارية أولًا من خلال فصل قواعد العمل في طبقات Services، وعزل التخزين خلف عقود Repositories، وفرض انتقالات البيانات بواسطة Enums واضحة.', 'لدي خبرة في تصميم RESTful APIs آمنة محمية بـLaravel Sanctum، ومنع مشاكل التزامن باستخدام قفل صفوف قاعدة البيانات، ودمج بوابات دفع حقيقية مثل MyFatoorah.', 'أؤمن أن جودة هندسة Backend تقاس بمدى تعامل النظام مع الحالات الخاصة بشكل متوقع، وحماية سلامة البيانات داخل المعاملات متعددة الخطوات، وإضافة الميزات الجديدة دون كسر العقود الحالية.'], 'philosophy_title' => 'فلسفة هندسية', 'philosophy_text' => 'الـControllers تنسق، والـForm Requests تتحقق، والـServices تقرر، والـRepositories تحفظ، والمعاملات تضمن سلامة العملية.', 'specs' => [['label' => 'اللغة الأساسية', 'value' => 'PHP 8.2+'], ['label' => 'الإطار الأساسي', 'value' => 'Laravel (10/11/12)'], ['label' => 'قاعدة البيانات', 'value' => 'MySQL / Eloquent'], ['label' => 'المصادقة', 'value' => 'Sanctum / RBAC / OTP'], ['label' => 'التزامن', 'value' => 'lockForUpdate / Atomic DB'], ['label' => 'الموقع', 'value' => 'مصر']]]],
+            'skills' => ['tag' => 'الأدوات التي أستخدمها', 'title' => 'المهارات والتقنيات', 'description' => 'تقنيات وأنماط استخدمتها أثناء بناء المشاريع التالية.'],
+            'projects' => ['tag' => 'أعمال مختارة', 'title' => 'مشاريع مميزة', 'description' => 'نظرة أقرب على الأنظمة والقرارات والمشكلات التقنية خلف مشاريع حقيقية.'],
+            'experience' => ['tag' => 'الخبرة', 'title' => 'الخبرة العملية', 'description' => 'الأدوار والتدريبات التي شكلت طريقتي في تطوير أنظمة Backend.'],
+            'github' => ['tag' => 'الكود', 'title' => 'مستودعات GitHub', 'description' => 'الكود متاح للعامة. ابدأ بالمستودعات التي توضح أسلوبي في العمل.'],
+            'resume' => ['tag' => 'السيرة الذاتية', 'title' => 'السيرة الذاتية والخلفية المهنية', 'description' => 'ملخص مختصر عن خبرتي ومهاراتي ومشاريعي المختارة.', 'content' => ['note' => 'يتم الاحتفاظ بالملف هنا ليكون استبداله بالنسخة الأحدث سهلًا عند جاهزيتها.']],
+            'contact' => ['tag' => 'تواصل معي', 'title' => 'تواصل معي', 'description' => 'لوظيفة أو مشروع أو حتى نقاش تقني، يمكنك التواصل معي من هنا.', 'content' => ['intro' => 'تتم إدارة بيانات التواصل والرسائل من لوحة تحكم البورتفوليو.']],
+        ];
+        foreach ($sections as $key => $translations) {
+            $section = Section::query()->where('key', $key)->first();
+            if ($section) {
+                $this->setArabic($section, $translations);
+            }
+        }
+
+        $pillars = [
+            'Clean Architecture' => ['title' => 'معمارية نظيفة', 'description' => 'فصل منطق المجال باستخدام Repository Pattern وطبقات Service.'],
+            'Concurrency Safety' => ['title' => 'أمان التزامن', 'description' => 'منع حالات التنافس باستخدام معاملات قاعدة البيانات والقفل التشاؤمي.'],
+            'Robust REST APIs' => ['title' => 'REST APIs قوية', 'description' => 'استجابات HTTP موحدة، والتحقق عبر Form Requests، وتحويل البيانات باستخدام API Resources.'],
+            'Type Safety & States' => ['title' => 'سلامة الأنواع والحالات', 'description' => 'إدارة انتقالات الحالة باستخدام PHP Enums للحفاظ على سلامة البيانات.'],
+        ];
+        foreach ($pillars as $title => $translations) {
+            $pillar = PortfolioPillar::query()->where('title', $title)->first();
+            if ($pillar) {
+                $this->setArabic($pillar, $translations);
+            }
+        }
+
+        foreach ([
+            'clean-architecture' => 'معمارية نظيفة',
+            'full-stack' => 'Full Stack',
+            'concurrency-apis' => 'التزامن وواجهات APIs',
+            'enterprise-system' => 'أنظمة مؤسسية',
+            'cms-apis' => 'CMS وواجهات APIs',
+        ] as $slug => $name) {
+            $category = Category::query()->where('slug', $slug)->first();
+            if ($category) {
+                $this->setArabic($category, ['name' => $name]);
+            }
+        }
+
+        $categoryLabels = ['backend' => 'Backend والأساسيات', 'database' => 'قواعد البيانات والتزامن', 'apis' => 'APIs والأمان', 'architecture' => 'المعمارية والأنماط', 'frontend' => 'تكامل الواجهات', 'tools' => 'الأدوات وسير العمل'];
+        $skillLevels = ['Core' => 'أساسي', 'Used in projects' => 'مستخدم في المشاريع', 'Design Principles' => 'مبادئ التصميم', 'Framework Standard' => 'معيار الإطار', 'Relational Database' => 'قاعدة بيانات علائقية', 'Data Modeling' => 'نمذجة البيانات', 'Optimized Queries' => 'استعلامات محسنة', 'Atomicity & Rollbacks' => 'الذرية والتراجع', 'Race Condition Prevention' => 'منع Race Conditions', 'Standard Compliant' => 'متوافق مع المعايير', 'Token Authentication' => 'مصادقة بالـTokens', 'Response Transformation' => 'تحويل الاستجابات', 'Input Validation' => 'التحقق من المدخلات', 'Custom Middleware & Gates' => 'Middleware وGates مخصصة', 'Mobile & Email Lifecycle' => 'دورة حياة الهاتف والبريد', 'Data Layer Decoupling' => 'فصل طبقة البيانات', 'Business Logic Encapsulation' => 'تغليف منطق العمل', 'Enum-based Status Transitions' => 'انتقالات حالة باستخدام Enums', 'Historical Change Tracking' => 'تتبع التغييرات التاريخية', 'Order & Invoice Integrity' => 'سلامة الطلبات والفواتير', 'Client-side SPAs (CivicFix)' => 'SPA للعميل (CivicFix)', 'Fullstack Interface (Clinic)' => 'واجهة Fullstack (Clinic)', 'Frontend Build Tooling' => 'أدوات بناء الواجهة', 'Server-side Rendering' => 'تصيير من الخادم', 'Laravel Core' => 'نواة Laravel', 'Utility Styling' => 'تنسيق Utility'];
+        $skillTags = ['Used in projects' => 'مستخدم في المشاريع', 'Core' => 'أساسي', 'Database' => 'قواعد بيانات', 'Security' => 'أمان', 'Architecture' => 'معمارية', 'Data Integrity' => 'سلامة البيانات', 'History' => 'سجل تاريخي', 'Integration' => 'تكامل', 'Tooling' => 'أدوات', 'Styling' => 'تنسيق', 'Essential' => 'أساسي', 'API Testing' => 'اختبار APIs', 'Environment' => 'بيئة', 'Workflow' => 'سير عمل'];
+        foreach (Skill::query()->get() as $skill) {
+            $this->setArabic($skill, ['category_label' => $categoryLabels[$skill->category] ?? $skill->category_label, 'level' => $skillLevels[$skill->level] ?? $skill->level, 'tag' => $skillTags[$skill->tag] ?? $skill->tag]);
+        }
+
+        $experiences = [
+            'Kabret' => ['position' => 'مطور Backend', 'description' => 'خبرة عملية', 'highlights' => ['تصميم ونشر خدمات Backend وRESTful APIs باستخدام PHP وLaravel.', 'هندسة مخططات قواعد البيانات وتحسين استعلامات MySQL.', 'دمج APIs وWebhooks خارجية مع ضمان موثوقية الاتصال بالخدمات.', 'المشاركة في مراجعات الكود وتعزيز معايير Clean Code ومبدأ DRY.']],
+            '7L Soft' => ['position' => 'مطور Backend', 'description' => 'خبرة عملية', 'highlights' => ['بناء وصيانة أنظمة Laravel التي تدعم تطبيقات الويب والعملاء.', 'تحسين أداء قواعد البيانات عبر الفهارس والتحميل المسبق المدروس.', 'تنفيذ تكاملات APIs خارجية ومعالجة Webhooks تلقائيًا.', 'المساهمة في تنفيذ الميزات ومراجعة Pull Requests.']],
+            'Finteck' => ['position' => 'متدرب تطوير Backend', 'description' => 'برنامج مكثف لمدة 3 أشهر • المنصورة', 'highlights' => ['برنامج تدريبي مكثف لمدة 3 أشهر في PHP وLaravel الحديث.', 'إتقان تصميم قواعد البيانات العلائقية والقيود والفهارس في MySQL.', 'بناء RESTful APIs عملية مع مصادقة بالـTokens والتحقق الآمن من المدخلات.', 'تطبيق سير العمل باستخدام Git وGitHub بشكل تعاوني.']],
+        ];
+        foreach ($experiences as $company => $translations) {
+            $experience = Experience::query()->where('company', $company)->first();
+            if ($experience) {
+                $this->setArabic($experience, $translations);
+            }
+        }
+
+        $projects = [
+            'awfar' => ['badge' => 'معمارية نظيفة • Repository Pattern • State Machine', 'short_description' => 'API للتجارة الإلكترونية والتوصيل', 'full_description' => 'API للمنتجات والسلال والطلبات والتوصيل، مع وضع قواعد الطلبات وتغييرات البيانات في مكان واضح ومتماسك.', 'case_study' => ['problem' => 'تعاني أنظمة التجارة الإلكترونية من Controllers متضخمة، وترابط قوي بين ORM وطبقة HTTP، ومشاكل التزامن، وسجل طلبات غير موثوق.', 'solution' => 'بناء Laravel API مفصول باستخدام Repository Pattern وContracts وService Layer مستقل وPHP Enums وSnapshots للطلبات.', 'architecture' => 'Controllers ← Service Layer ← Repository Contracts ← عمليات قاعدة بيانات داخل معاملات.', 'keyFeatures' => ['Repository Contracts', 'آلة حالات للطلبات باستخدام Enums', 'تحديث ذري للمخزون', 'Snapshots غير قابلة للتغيير للعناوين', 'نظام نقاط الولاء', 'واجهات متعددة الأدوار', 'مصادقة Sanctum مع OTP']]],
+            'civicfix' => ['badge' => 'Laravel API • React 18 • Vite • سجل تدقيق • تحليلات', 'short_description' => 'الإبلاغ عن مشكلات المدن ومتابعتها', 'full_description' => 'Laravel API وواجهة React لإرسال مشكلات الأماكن العامة وتوزيعها على الفنيين وحفظ تاريخ ما حدث لكل بلاغ.', 'case_study' => ['problem' => 'تواجه الجهات المحلية شكاوى غير منظمة، وضعفًا في المتابعة الشفافة، وضياع المرفقات، وصعوبة توزيع الفنيين.', 'solution' => 'هندسة Laravel API مؤمنة مع React 18/Vite وعمليات تعتمد على الأدوار ولوحات متابعة وسجل تدقيق تلقائي.', 'architecture' => 'REST API في Laravel محمي بـSanctum وMiddleware للأدوار وتستهلكه واجهة React.', 'keyFeatures' => ['إرسال بلاغات المواطنين', 'صلاحيات حسب الدور', 'سجل تاريخي للتعديلات', 'تحليلات عامة', 'توزيع البلاغات على الفنيين', 'واجهة React متجاوبة']]],
+            'clinic-booking' => ['badge' => 'التحكم في التزامن • lockForUpdate • Next.js • Sanctum', 'short_description' => 'حجز المواعيد مع قفل المواعيد', 'full_description' => 'نظام حجز عيادات ينشر فيه الأطباء مواعيدهم ويحجز المرضى الفترات المتاحة، مع منع حجز نفس الفترة مرتين.', 'case_study' => ['problem' => 'قد تؤدي طلبات الحجز المتزامنة لنفس الموعد إلى Race Conditions وحجز مزدوج.', 'solution' => 'تنفيذ قفل تشاؤمي على مستوى قاعدة البيانات باستخدام المعاملات وlockForUpdate.', 'architecture' => 'Laravel REST API مع Controllers وواجهة Next.js/TypeScript.', 'keyFeatures' => ['قفل تشاؤمي', 'مزامنة حالات المواعيد', 'إعادة التحقق عند إعادة التفعيل', 'صلاحيات على مستوى الصفوف', 'مولد أوقات التوافر', 'واجهة Next.js وTypeScript']]],
+            'alamaal' => ['badge' => 'Laravel 11 • MyFatoorah • سير علاج • OTP • CMS', 'short_description' => 'خدمات تأهيل ومدفوعات إلكترونية', 'full_description' => 'منصة Laravel تربط العائلات بالمتخصصين، وتدير الطلبات والمدفوعات، وتمنح الفريق أدوات لإدارة الخطط العلاجية ومحتوى الموقع.', 'case_study' => ['problem' => 'تحتاج العائلات لاستشارات مخصصة وخطط علاج منظمة ومدفوعات آمنة وتواصل مع المتخصصين.', 'solution' => 'بناء منصة Laravel متعددة الأدوار لمتابعة التأهيل وCallbacks الدفع وتسليم الخطط العلاجية واستعادة الحساب عبر OTP.', 'architecture' => 'Laravel MVC متكامل مع Blade وAlpine.js وTailwind ولوحة إدارة ومعالجات بوابة الدفع.', 'keyFeatures' => ['تكامل MyFatoorah', 'سجل ملفات الأطفال', 'سير الخطط العلاجية', 'بوابات تحكم في الظهور', 'استعادة كلمة المرور عبر OTP', 'حساب الكوبونات', 'لوحة CMS']]],
+            'ezzhal' => ['badge' => 'Laravel 13 • Blade • CMS • مكتبة الوسائط', 'short_description' => 'موقع توصيل مياه ولوحة إدارة محتوى', 'full_description' => 'موقع Laravel ثنائي اللغة لخدمة توصيل المياه، مع لوحة تحكم لإدارة المحتوى العام دون تعديل الكود.', 'case_study' => ['problem' => 'يحتاج موقع الخدمة لتغيير البنرات والميزات والأسئلة والتقييمات وبيانات التواصل دون انتظار إصدار برمجي.', 'solution' => 'بناء تطبيق Laravel بموقع عام Server-rendered ولوحة مصادقة لإدارة المحتوى العام.', 'architecture' => 'Laravel MVC مع Blade وEloquent وSession Authentication وForm Requests وVite ورفع الوسائط.', 'keyFeatures' => ['محتوى عربي وإنجليزي', 'موارد محتوى من لوحة التحكم', 'رفع واستبدال الصور', 'حالات التفعيل والترتيب', 'نموذج تواصل متحقق منه', 'صفحة رئيسية مبنية من قاعدة البيانات']]],
+            'dentcare' => ['badge' => 'Laravel 13 • MySQL • Service + Repository • Sanctum', 'short_description' => 'نظام إدارة عيادة أسنان', 'full_description' => 'منصة متكاملة لإدارة محتوى العيادة والأطباء والمواعيد والجداول وتقييمات المرضى وعمليات الحجز من نظام إداري واحد.', 'case_study' => ['problem' => 'تحتاج عيادات الأسنان لمساحة موحدة لإدارة المحتوى والأطباء والمواعيد وتواصل المرضى وإعدادات العيادة.', 'solution' => 'بناء نظام Laravel بإدارة CMS وتدفقات عمل حسب الأدوار وحجز يعتمد على Services وقواعد عيادة محفوظة.', 'architecture' => 'Laravel MVC مع Blade وEloquent وService Layer وRepository Contracts وForm Requests وAPI Resources وSanctum.', 'keyFeatures' => ['لوحة CMS', 'إدارة الأطباء', 'حجز المواعيد والجداول', 'مراجعة تقييمات المرضى', 'مدونة وأسئلة شائعة ومعرض وإعدادات العيادة', 'REST API محمي بـSanctum']]],
+        ];
+        foreach ($projects as $slug => $translations) {
+            $project = Project::query()->where('slug', $slug)->first();
+            if ($project) {
+                $this->setArabic($project, $translations);
+            }
+        }
+
+        foreach ([
+            'meta_title' => 'إبراهيم علاء — مطور Backend',
+            'meta_description' => 'إبراهيم علاء مطور Backend يعمل باستخدام PHP وLaravel وMySQL وREST APIs.',
+            'og_title' => 'إبراهيم علاء — مطور Backend | PHP وLaravel',
+            'og_description' => 'استكشف دراسات حالة حقيقية في Laravel ومعمارية نظيفة وحلول لمشكلات التزامن وقواعد البيانات.',
+            'footer_text' => 'تم البناء باستخدام HTML دلالي وCSS وLaravel وMySQL.',
+        ] as $key => $value) {
+            $setting = SiteSetting::query()->where('key', $key)->first();
+            if ($setting) {
+                $this->setArabic($setting, ['value' => $value]);
+            }
+        }
+    }
+
+    private function setArabic(Model $model, array $translations): void
+    {
+        $current = $model->translations ?? [];
+        $model->update(['translations' => array_replace_recursive($current, ['ar' => $translations])]);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\HasLocalizedContent;
 use Database\Factories\ProjectFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -15,11 +16,13 @@ class Project extends Model
     /** @use HasFactory<ProjectFactory> */
     use HasFactory;
 
+    use HasLocalizedContent;
+
     protected $fillable = [
         'category_id', 'title', 'slug', 'short_description', 'full_description',
         'image_path', 'thumbnail_path', 'github_url', 'live_demo_url', 'badge',
         'client_company', 'project_status', 'start_date', 'completion_date',
-        'case_study', 'featured', 'published', 'active', 'sort_order',
+        'case_study', 'featured', 'published', 'active', 'sort_order', 'translations',
     ];
 
     protected function casts(): array
@@ -31,6 +34,7 @@ class Project extends Model
             'featured' => 'boolean',
             'published' => 'boolean',
             'active' => 'boolean',
+            'translations' => 'array',
         ];
     }
 

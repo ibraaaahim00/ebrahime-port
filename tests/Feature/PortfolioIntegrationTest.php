@@ -36,7 +36,8 @@ class PortfolioIntegrationTest extends TestCase
 
         $this->get(route('locale.switch', ['locale' => 'ar']))->assertRedirect();
 
-        $this->get(route('home'))->assertOk()->assertSee('lang="ar"', false)->assertSee('dir="rtl"', false)->assertSee('تواصل معي');
+        $this->get(route('home'))->assertOk()->assertSee('lang="ar"', false)->assertSee('dir="rtl"', false)->assertSee('تواصل معي')->assertSee('المهارات والتقنيات')->assertSee('نظام إدارة عيادة أسنان')->assertSee('معمارية نظيفة');
+        $this->get(route('projects.show', 'dentcare'))->assertOk()->assertSee('نظام إدارة عيادة أسنان')->assertSee('لوحة CMS')->assertSee('dir="rtl"', false);
         $admin = User::query()->where('is_admin', true)->firstOrFail();
         $this->actingAs($admin)->get(route('admin.skills.index'))->assertOk()->assertSee('dir="rtl"', false)->assertSee('إدارة البورتفوليو');
     }

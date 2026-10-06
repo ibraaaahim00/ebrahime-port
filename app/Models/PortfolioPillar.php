@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\HasLocalizedContent;
 use Database\Factories\PortfolioPillarFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -11,10 +12,12 @@ class PortfolioPillar extends Model
     /** @use HasFactory<PortfolioPillarFactory> */
     use HasFactory;
 
-    protected $fillable = ['title', 'description', 'icon', 'sort_order', 'active'];
+    use HasLocalizedContent;
+
+    protected $fillable = ['title', 'description', 'icon', 'sort_order', 'active', 'translations'];
 
     protected function casts(): array
     {
-        return ['active' => 'boolean'];
+        return ['active' => 'boolean', 'translations' => 'array'];
     }
 }

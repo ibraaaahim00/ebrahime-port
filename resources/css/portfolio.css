@@ -1532,3 +1532,16 @@ html[dir='rtl'] .section-header, html[dir='rtl'] .contact-form { text-align: rig
 html[dir='rtl'] .timeline { border-left: 0; border-right: 1px solid var(--border-subtle); padding-left: 0; padding-right: 1.5rem; }
 html[dir='rtl'] .timeline-item::before { left: auto; right: -1.86rem; }
 html[dir='rtl'] .contact-item, html[dir='rtl'] .spec-item, html[dir='rtl'] .project-card-actions { flex-direction: row-reverse; }
+html[dir='rtl'] .brand-badge { border-left: 0; border-right: 1px solid var(--border-subtle); padding-left: 0; padding-right: .75rem; }
+html[dir='rtl'] .hero-aside { right: auto; left: 1.5rem; }
+html[dir='rtl'] .hero-note { padding-left: 0; padding-right: .2rem; }
+html[dir='rtl'] .hero-pillars-grid { border-left: 0; border-right: 1px solid var(--border-subtle); }
+html[dir='rtl'] .pillar-card { border-right: 0; border-left: 1px solid var(--border-subtle); }
+html[dir='rtl'] .about-philosophy-card { border-left: 0; border-right: 2px solid var(--primary); padding-left: 0; padding-right: 1.15rem; }
+html[dir='rtl'] .timeline::before { left: auto; right: 20px; }
+html[dir='rtl'] .timeline-item { padding-left: 0; padding-right: 3.5rem; }
+html[dir='rtl'] .timeline-marker { left: auto; right: 12px; }
+html[dir='rtl'] .timeline-card { border-left: 0; border-right: 1px solid var(--border-subtle); padding-left: 0; padding-right: 1.5rem; }
+html[dir='rtl'] .timeline-highlights li { padding-left: 0; padding-right: 1.25rem; }
+html[dir='rtl'] .timeline-highlights li::before { left: auto; right: 0; }
+html[dir='rtl'] .hero-title, html[dir='rtl'] .hero-role, html[dir='rtl'] .section-tag { letter-spacing: 0; }
