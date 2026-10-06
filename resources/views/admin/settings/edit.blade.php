@@ -9,6 +9,9 @@
             <label>{{ __('ui.setting_'.$setting->key) }}<input type="file" name="{{ $setting->key === 'og_image' ? 'og_image' : str_replace('_path', '', $setting->key) }}" accept="image/*"></label>
         @else
             <label>{{ __('ui.setting_'.$setting->key) }}<input name="settings[{{ $setting->key }}]" value="{{ $setting->value }}"></label>
+            @if(data_get($setting->translations ?? [], 'ar.value') !== null)
+                <label>{{ __('ui.setting_arabic_version') }}<input dir="rtl" name="translations[ar][{{ $setting->key }}]" value="{{ data_get($setting->translations, 'ar.value') }}"></label>
+            @endif
         @endif
     @endforeach
 @endforeach

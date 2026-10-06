@@ -114,6 +114,7 @@ return [
     'setting_og_description' => 'وصف المشاركة',
     'setting_og_image' => 'صورة المشاركة',
     'setting_footer_text' => 'نص التذييل',
+    'setting_arabic_version' => 'النسخة العربية',
     'sections_title' => 'أقسام الموقع',
     'save_profile' => 'حفظ الملف الشخصي',
     'save_settings' => 'حفظ الإعدادات',

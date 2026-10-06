@@ -99,6 +99,9 @@ class AdminCmsResourcesTest extends TestCase
             'settings' => ['footer_text' => 'Updated footer content'],
         ])->assertRedirect();
         $this->assertDatabaseHas('site_settings', ['key' => 'footer_text', 'value' => 'Updated footer content']);
+        $this->assertSame('Updated footer content', data_get(SiteSetting::query()->where('key', 'footer_text')->firstOrFail()->translations, 'ar.value'));
+        $this->get(route('home'))->assertSee('Updated footer content');
+        app()->setLocale('ar');
         $this->get(route('home'))->assertSee('Updated footer content');
 
         $section = Section::query()->where('key', 'skills')->firstOrFail();

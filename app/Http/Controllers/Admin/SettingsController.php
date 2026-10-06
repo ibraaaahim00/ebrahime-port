@@ -19,9 +19,19 @@ class SettingsController extends Controller
     public function update(UpdateSettingsRequest $request, FileUploadService $files): RedirectResponse
     {
         $validated = $request->validated();
+        $arabicTranslations = $validated['translations']['ar'] ?? [];
 
         foreach ($validated['settings'] ?? [] as $key => $value) {
-            SiteSetting::query()->where('key', $key)->update(['value' => $value]);
+            $setting = SiteSetting::query()->where('key', $key)->firstOrFail();
+            $attributes = ['value' => $value];
+            $translations = $setting->translations ?? [];
+
+            if (isset($translations['ar']) || array_key_exists($key, $arabicTranslations)) {
+                $translations['ar']['value'] = array_key_exists($key, $arabicTranslations) ? $arabicTranslations[$key] : $value;
+                $attributes['translations'] = $translations;
+            }
+
+            $setting->update($attributes);
         }
 
         foreach (['logo' => 'logo_path', 'favicon' => 'favicon_path', 'og_image' => 'og_image'] as $input => $key) {

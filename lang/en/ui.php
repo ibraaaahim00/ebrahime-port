@@ -114,6 +114,7 @@ return [
     'setting_og_description' => 'Open Graph Description',
     'setting_og_image' => 'Open Graph Image',
     'setting_footer_text' => 'Footer Text',
+    'setting_arabic_version' => 'Arabic Version',
     'sections_title' => 'Sections',
     'save_profile' => 'Save Profile',
     'save_settings' => 'Save Settings',

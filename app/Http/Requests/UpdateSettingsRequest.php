@@ -13,6 +13,15 @@ class UpdateSettingsRequest extends FormRequest
 
     public function rules(): array
     {
-        return ['settings' => ['array'], 'settings.*' => ['nullable', 'string', 'max:5000'], 'logo' => ['nullable', 'file', 'mimes:jpg,jpeg,png,webp,svg', 'max:5120'], 'favicon' => ['nullable', 'file', 'mimes:ico,png,svg', 'max:2048'], 'og_image' => ['nullable', 'file', 'mimes:jpg,jpeg,png,webp', 'max:5120']];
+        return [
+            'settings' => ['array'],
+            'settings.*' => ['nullable', 'string', 'max:5000'],
+            'translations' => ['array'],
+            'translations.ar' => ['array'],
+            'translations.ar.*' => ['nullable', 'string', 'max:5000'],
+            'logo' => ['nullable', 'file', 'mimes:jpg,jpeg,png,webp,svg', 'max:5120'],
+            'favicon' => ['nullable', 'file', 'mimes:ico,png,svg', 'max:2048'],
+            'og_image' => ['nullable', 'file', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
+        ];
     }
 }
