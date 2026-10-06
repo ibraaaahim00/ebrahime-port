@@ -97,6 +97,8 @@ tbody tr:last-child td { border-bottom: 0; }
 .full { grid-column: 1 / -1; }
 .form-actions { display: flex; justify-content: flex-end; gap: .6rem; grid-column: 1 / -1; padding-top: .4rem; }
 html[dir='rtl'] .form-actions { justify-content: flex-start; }
+.account-security-note { display: grid; gap: .25rem; padding: .85rem 1rem; border: 1px solid rgba(38, 198, 218, .2); border-radius: .75rem; color: #c8d3e5; background: rgba(38, 198, 218, .06); font-size: .78rem; }
+.account-security-note strong { color: #fff; font-size: .82rem; }
 
 .alert { margin-bottom: 1rem; padding: .8rem .95rem; border: 1px solid rgba(53, 212, 154, .22); border-radius: .75rem; color: #b7f7dc; background: rgba(53, 212, 154, .09); font-size: .8rem; }
 .alert.errors { border-color: rgba(251, 113, 133, .25); color: #fecdd3; background: rgba(190, 18, 60, .13); }

@@ -37,7 +37,7 @@
 
         <div class="admin-nav-section">{{ __('ui.system') }}</div>
         <nav class="admin-nav" aria-label="{{ __('ui.system') }}">
-            @foreach ([['admin.profile.edit', 'profile', '◎'], ['admin.sections.index', 'sections', '☷'], ['admin.settings.edit', 'settings', '⚙']] as [$routeName, $label, $icon])
+            @foreach ([['admin.profile.edit', 'profile', '◎'], ['admin.account.edit', 'account', '◉'], ['admin.sections.index', 'sections', '☷'], ['admin.settings.edit', 'settings', '⚙']] as [$routeName, $label, $icon])
                 <a href="{{ route($routeName) }}" class="{{ request()->routeIs($routeName) ? 'active' : '' }}">
                     <span class="nav-icon" aria-hidden="true">{{ $icon }}</span><span>{{ __('ui.'.$label) }}</span>
                 </a>

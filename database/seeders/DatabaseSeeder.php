@@ -34,7 +34,17 @@ class DatabaseSeeder extends Seeder
 
     private function seedAdmin(): void
     {
-        User::query()->updateOrCreate(['email' => env('ADMIN_EMAIL', 'admin@example.com')], ['name' => env('ADMIN_NAME', 'Portfolio Administrator'), 'password' => Hash::make(env('ADMIN_PASSWORD', 'password')), 'is_admin' => true, 'email_verified_at' => now()]);
+        if (User::query()->where('is_admin', true)->exists()) {
+            return;
+        }
+
+        User::query()->create([
+            'name' => env('ADMIN_NAME', 'Portfolio Administrator'),
+            'email' => env('ADMIN_EMAIL', 'admin@example.com'),
+            'password' => Hash::make(env('ADMIN_PASSWORD', 'password')),
+            'is_admin' => true,
+            'email_verified_at' => now(),
+        ]);
     }
 
     private function seedProfile(): void
