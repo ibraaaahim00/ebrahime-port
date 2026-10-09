@@ -21,8 +21,8 @@ class UpdateProjectRequest extends FormRequest
     {
         $projectId = $this->route('project')?->getKey();
 
-        return (new StoreProjectRequest)->rules() + [
+        return array_merge((new StoreProjectRequest)->rules(), [
             'slug' => ['required', 'string', 'max:190', 'alpha_dash', 'unique:projects,slug,'.$projectId],
-        ];
+        ]);
     }
 }

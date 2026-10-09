@@ -30,6 +30,9 @@ class AdminProjectWorkflowTest extends TestCase
         $this->assertTrue($project->featured);
         $this->assertTrue($project->technologies->contains($technology));
 
+        $this->actingAs($admin)->put(route('admin.projects.update', $project), array_merge($payload, ['slug' => 'cms-workflow', 'live_demo_url' => 'https://technova-eg.great-site.net/']))->assertRedirect(route('admin.projects.index'));
+        $this->assertDatabaseHas('projects', ['slug' => 'cms-workflow', 'live_demo_url' => 'https://technova-eg.great-site.net/']);
+
         $this->actingAs($admin)->post(route('admin.projects.toggle', [$project, 'published']))->assertRedirect();
         $this->get(route('home'))->assertDontSee('CMS Workflow');
         $this->actingAs($admin)->post(route('admin.projects.toggle', [$project, 'published']))->assertRedirect();
