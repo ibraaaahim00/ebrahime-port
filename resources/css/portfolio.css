@@ -274,6 +274,11 @@ a {
     font-size: 0.825rem;
 }
 
+.btn.is-disabled {
+    cursor: not-allowed;
+    opacity: 0.58;
+}
+
 /* Hero Section */
 .hero-section {
     padding: 6.5rem 0 4.5rem;

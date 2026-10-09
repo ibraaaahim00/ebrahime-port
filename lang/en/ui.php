@@ -73,6 +73,7 @@ return [
     'flags' => 'Flags',
     'github' => 'GitHub',
     'live_demo' => 'Live Demo',
+    'live_demo_unavailable' => 'No live demo added yet',
     'view' => 'View',
     'archive' => 'Archive',
     'sender' => 'Sender',

@@ -73,6 +73,7 @@ return [
     'flags' => 'الخصائص',
     'github' => 'GitHub',
     'live_demo' => 'نسخة مباشرة',
+    'live_demo_unavailable' => 'لم تُضف نسخة مباشرة بعد',
     'view' => 'عرض',
     'archive' => 'أرشفة',
     'sender' => 'المرسل',

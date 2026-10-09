@@ -275,6 +275,8 @@
                                 @endif
                                 @if ($project->live_demo_url)
                                     <a href="{{ $project->live_demo_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">{{ __('ui.live_demo') }}</a>
+                                @else
+                                    <span class="btn btn-secondary btn-sm is-disabled" aria-disabled="true">{{ __('ui.live_demo_unavailable') }}</span>
                                 @endif
                             </div>
                         </article>
