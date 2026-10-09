@@ -12,17 +12,15 @@ use App\Models\Section;
 use App\Models\SiteSetting;
 use App\Models\Skill;
 use App\Models\Technology;
-use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        $this->seedAdmin();
+        $this->call(AdminUserSeeder::class);
         $this->seedProfile();
         $this->seedSettings();
         $this->seedSections();
@@ -32,21 +30,6 @@ class DatabaseSeeder extends Seeder
         $this->seedEducation();
         $this->seedProjects();
         $this->seedArabicTranslations();
-    }
-
-    private function seedAdmin(): void
-    {
-        if (User::query()->where('is_admin', true)->exists()) {
-            return;
-        }
-
-        User::query()->create([
-            'name' => env('ADMIN_NAME', 'Portfolio Administrator'),
-            'email' => env('ADMIN_EMAIL', 'admin@example.com'),
-            'password' => Hash::make(env('ADMIN_PASSWORD', 'password')),
-            'is_admin' => true,
-            'email_verified_at' => now(),
-        ]);
     }
 
     private function seedProfile(): void
