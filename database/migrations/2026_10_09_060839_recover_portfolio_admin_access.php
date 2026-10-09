@@ -47,12 +47,33 @@ return new class extends Migration
                 return;
             }
 
-            $existingAdminCount = $connection->table('users')
+            $existingAdmins = $connection->table('users')
                 ->where('is_admin', true)
                 ->lockForUpdate()
-                ->count();
+                ->get(['id']);
 
-            if ($existingAdminCount > 0) {
+            if ($existingAdmins->count() === 1) {
+                $existingUser = $connection->table('users')
+                    ->where('email', $email)
+                    ->lockForUpdate()
+                    ->first();
+
+                if ($existingUser !== null && (int) $existingUser->id !== (int) $existingAdmins->first()->id) {
+                    throw new RuntimeException('The recovery email belongs to another user; recovery stopped without changes.');
+                }
+
+                $connection->table('users')
+                    ->where('id', $existingAdmins->first()->id)
+                    ->update([
+                        'email' => $email,
+                        'password' => Hash::make($password),
+                        'updated_at' => now(),
+                    ]);
+
+                return;
+            }
+
+            if ($existingAdmins->count() > 1) {
                 throw new RuntimeException('A different production admin exists; recovery stopped without changes.');
             }
 
