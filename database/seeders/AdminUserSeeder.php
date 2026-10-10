@@ -25,38 +25,20 @@ class AdminUserSeeder extends Seeder
             throw new RuntimeException('ADMIN_PASSWORD must contain at least 32 characters.');
         }
 
-        $now = now();
-
-        DB::transaction(function () use ($email, $password, $now): void {
-            $target = DB::table('users')->where('email', $email)->lockForUpdate()->first();
+        DB::transaction(function () use ($email, $password): void {
             $admins = DB::table('users')->where('is_admin', true)->lockForUpdate()->get(['id']);
 
-            if ($target !== null && ! (bool) $target->is_admin) {
+            if ($admins->isNotEmpty()) {
+                return;
+            }
+
+            $target = DB::table('users')->where('email', $email)->lockForUpdate()->first();
+
+            if ($target !== null) {
                 throw new RuntimeException('ADMIN_EMAIL belongs to a non-admin user; no account was changed.');
             }
 
-            if ($target !== null) {
-                DB::table('users')->where('id', $target->id)->update([
-                    'password' => Hash::make($password),
-                    'updated_at' => $now,
-                ]);
-
-                return;
-            }
-
-            if ($admins->count() > 1) {
-                throw new RuntimeException('Multiple administrators exist; set ADMIN_EMAIL to one of their current email addresses.');
-            }
-
-            if ($admins->count() === 1) {
-                DB::table('users')->where('id', $admins->first()->id)->update([
-                    'email' => $email,
-                    'password' => Hash::make($password),
-                    'updated_at' => $now,
-                ]);
-
-                return;
-            }
+            $now = now();
 
             DB::table('users')->insert([
                 'name' => env('ADMIN_NAME', 'Portfolio Administrator'),
